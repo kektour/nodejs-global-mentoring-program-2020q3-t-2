@@ -7,34 +7,40 @@ export type User = {
 };
 
 const users: Array<User> = [];
-
 users.push(
   {
     id: 'd71fb699897de',
     login: 'foo',
     password: 'foo',
-    age: 1,
+    age: 22,
     isDeleted: false,
   },
   {
     id: 'cf5d204361ef7',
-    login: 'foo1',
-    password: 'foo1',
-    age: 12,
+    login: 'bar',
+    password: 'bar',
+    age: 33,
     isDeleted: false,
   },
   {
     id: 'd3338596e23eb',
-    login: 'foo2',
-    password: 'foo2',
-    age: 13,
+    login: 'baz',
+    password: 'baz',
+    age: 44,
     isDeleted: false,
   },
   {
     id: '1f2346069bdba',
-    login: 'foo3',
-    password: 'foo3',
-    age: 14,
+    login: 'foo_bar',
+    password: 'foo_bar',
+    age: 55,
+    isDeleted: false,
+  },
+  {
+    id: 'd9e4bc63b92a4',
+    login: 'bar_baz',
+    password: 'bar_baz',
+    age: 66,
     isDeleted: false,
   }
 );
@@ -67,7 +73,7 @@ function update(id: string, data: Partial<User>): User | undefined {
   return users[userIndx];
 }
 
-function getByLogin(login: string, limit?: number) {
+function getByLogin(login: string, limit?: number): Array<User> {
   const sortedUsers = users.sort((a, b) => {
     if (a.login > b.login) {
       return 1;

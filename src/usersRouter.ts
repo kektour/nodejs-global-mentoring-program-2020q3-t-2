@@ -1,6 +1,6 @@
 import express from 'express';
 import usersStore from './usersStore';
-import { validateNewUser, validateUpdateUser } from './usersValidators';
+import { validateNewUser, validateUpdateUser, validateGetUser } from './usersValidators';
 
 const router = express.Router();
 
@@ -28,11 +28,12 @@ router.put('/:id', validateUpdateUser, (req, res) => {
   });
 });
 
-router.get('/', (req, res) => {
+router.get('/', validateGetUser, (req, res) => {
   const { login, limit } = req.query;
-  const foundUsersByLogin = usersStore.getByLogin(login as string, parseInt(limit as string));
+  const foundUsersByLogin = usersStore.getByLogin(<string>login, parseInt(<string>limit));
   res.json({
     data: foundUsersByLogin,
+    meta: { count: foundUsersByLogin.length },
   });
 });
 
