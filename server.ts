@@ -1,8 +1,8 @@
 import app from './src/app';
-import { EnvService, EnvServiceImpl } from './src/services/env';
+import { UtilsService, UtilsServiceImpl } from './src/services/utils';
 
-const envService: EnvService = new EnvServiceImpl();
-const port = envService.getVar('PORT');
+const utilsService: UtilsService = new UtilsServiceImpl();
+const port = utilsService.getEnvVar('PORT');
 app.listen(port, () => {
   console.log(`App is listening on port ${port}`);
 });

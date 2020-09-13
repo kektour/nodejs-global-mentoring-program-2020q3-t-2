@@ -5,9 +5,10 @@ import postSchema from '../middlewares/validation/user/postSchema';
 import putSchema from '../middlewares/validation/user/putSchema';
 import validateSchema from '../middlewares/validation/validateSchema';
 import { UserService, UserServiceImpl } from '../services/user';
+import { UtilsServiceImpl } from '../services/utils';
 
 const router = express.Router();
-const userService: UserService = new UserServiceImpl(new UserDALImpl());
+const userService: UserService = new UserServiceImpl(new UserDALImpl(new UtilsServiceImpl()));
 
 interface GETQuery {
   login?: string;

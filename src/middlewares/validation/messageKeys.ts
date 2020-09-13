@@ -5,4 +5,6 @@ export enum MessageKey {
   NumberMax = 'number.max',
   NumberInteger = 'number.integer',
   Number = 'number.base',
+  ArrayIncludesRequiredUnknowns = 'array.includesRequiredUnknowns',
+  ArrayIncludes = 'array.includes'
 }

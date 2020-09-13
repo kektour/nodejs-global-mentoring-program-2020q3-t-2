@@ -1,9 +1,12 @@
 import { Op } from 'sequelize';
-import { UserModel } from '../../models';
+import { UserModel, UserGroupModel } from '../../models';
 import { UserAttributes, UserCreationAttributes } from '../../models/user';
+import { UtilsService } from '../../services/utils';
 import { FindAllOptions, UserDAL } from './user';
 
 export class UserDALImpl implements UserDAL {
+  constructor(private utilsService: UtilsService) {}
+
   public async findAll(
     attrs: Partial<UserAttributes>,
     page?: number,
@@ -40,7 +43,7 @@ export class UserDALImpl implements UserDAL {
 
   public async create(login: string, password: string, age: number): Promise<UserAttributes> {
     const user: UserCreationAttributes = {
-      id: Math.random().toString(16).slice(2),
+      id: this.utilsService.getUUID(),
       login,
       password,
       age,
@@ -60,11 +63,11 @@ export class UserDALImpl implements UserDAL {
   }
 
   public async remove(id: string): Promise<UserAttributes | null> {
-    let user = await UserModel.findByPk(id);
+    const user = await UserModel.findByPk(id);
     if (!user) {
       return null;
     }
-    user = await user.update({ is_deleted: true });
-    return <UserAttributes>user.get({ plain: true });
+    const [updatedUser] = await Promise.all([user.update({ is_deleted: true }), UserGroupModel.destroy({ where: { user_id: id } })]);
+    return <UserAttributes>updatedUser.get({ plain: true });
   }
 }
