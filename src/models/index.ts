@@ -5,7 +5,7 @@ import { userFactory } from './user';
 import { userGroupFactory } from './userGroup';
 
 const utilsService: UtilsService = new UtilsServiceImpl();
-export const connection = new Sequelize(utilsService.getEnvVar('CONNECTION_STRING'));
+export const connection = new Sequelize(utilsService.getEnvVar('CONNECTION_STRING'), { logging: false });
 export const UserModel = userFactory(connection);
 export const GroupModel = groupFactory(connection);
 export const UserGroupModel = userGroupFactory(connection);

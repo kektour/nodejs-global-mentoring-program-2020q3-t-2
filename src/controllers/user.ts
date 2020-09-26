@@ -15,22 +15,30 @@ interface GETQuery {
   limit?: number;
   page?: number;
 }
-router.get('/', validateSchema(getSchema, 'query'), async (req, res) => {
-  const { login, page, limit } = <GETQuery>req.query;
-  const foundUsersByLogin = await userService.getAll({ login }, page, limit);
-  res.json({
-    data: foundUsersByLogin.users,
-    meta: { count: foundUsersByLogin.count },
-  });
+router.get('/', validateSchema(getSchema, 'query'), async (req, res, next) => {
+  try {
+    const { login, page, limit } = <GETQuery>req.query;
+    const foundUsersByLogin = await userService.getAll({ login }, page, limit);
+    res.json({
+      data: foundUsersByLogin.users,
+      meta: { count: foundUsersByLogin.count },
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
-  const foundUser = await userService.getById(id);
-  res.json({
-    data: foundUser ?? {},
-    meta: {},
-  });
+router.get('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const foundUser = await userService.getById(id);
+    res.json({
+      data: foundUser ?? {},
+      meta: {},
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
 interface POSTBody {
@@ -38,31 +46,43 @@ interface POSTBody {
   password: string;
   age: number;
 }
-router.post('/', validateSchema(postSchema, 'body'), async (req, res) => {
-  const { login, password, age } = <POSTBody>req.body;
-  const newUser = await userService.create(login, password, age);
-  res.json({
-    data: newUser,
-    meta: {},
-  });
+router.post('/', validateSchema(postSchema, 'body'), async (req, res, next) => {
+  try {
+    const { login, password, age } = <POSTBody>req.body;
+    const newUser = await userService.create(login, password, age);
+    res.json({
+      data: newUser,
+      meta: {},
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
-router.put('/:id', validateSchema(putSchema, 'body'), async (req, res) => {
-  const { id } = req.params;
-  const updatedUser = await userService.update(id, req.body);
-  res.json({
-    data: updatedUser ?? {},
-    meta: {},
-  });
+router.put('/:id', validateSchema(putSchema, 'body'), async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const updatedUser = await userService.update(id, req.body);
+    res.json({
+      data: updatedUser ?? {},
+      meta: {},
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
-router.delete('/:id', async (req, res) => {
-  const { id } = req.params;
-  const removedUser = await userService.remove(id);
-  res.json({
-    data: removedUser ?? {},
-    meta: {},
-  });
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const removedUser = await userService.remove(id);
+    res.json({
+      data: removedUser ?? {},
+      meta: {},
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
 export default router;
