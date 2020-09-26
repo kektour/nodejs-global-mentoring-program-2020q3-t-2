@@ -20,4 +20,24 @@ export class UtilsServiceImpl implements UtilsService {
         throw new Error(`getUUID ${version} version is not implemented`);
     }
   }
+
+  public buildEndpointLog(
+    method: string,
+    path: string,
+    params: Record<string, string>,
+    query: Record<string, string>,
+    body: Record<string, string>
+  ): string {
+    let baseLog: string = `${method} - ${path}`;
+    if (Object.keys(params).length !== 0) {
+      baseLog += ` - ${JSON.stringify(params)}`;
+    }
+    if (Object.keys(query).length !== 0) {
+      baseLog += ` - ${JSON.stringify(query)}`;
+    }
+    if (Object.keys(body).length !== 0) {
+      baseLog += ` - ${JSON.stringify(body)}`;
+    }
+    return baseLog;
+  }
 }
