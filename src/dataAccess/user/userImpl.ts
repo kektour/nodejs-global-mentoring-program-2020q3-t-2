@@ -36,6 +36,14 @@ export class UserDALImpl implements UserDAL {
     };
   }
 
+  public async findOne(attrs: Partial<UserAttributes>): Promise<UserAttributes | null> {
+    const user = await UserModel.findOne({
+      where: { ...attrs },
+      raw: true,
+    });
+    return <UserAttributes | null>user;
+  }
+
   public async findById(id: string): Promise<UserAttributes | null> {
     const user = await UserModel.findByPk(id, { raw: true });
     return <UserAttributes | null>user;
@@ -48,6 +56,7 @@ export class UserDALImpl implements UserDAL {
       password,
       age,
       is_deleted: false,
+      refresh_token: null,
     };
     const savedUser = await UserModel.create(user, { raw: true });
     return <UserAttributes>savedUser;

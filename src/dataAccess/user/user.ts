@@ -11,6 +11,7 @@ export interface UserDAL {
     limit?: number,
     options?: FindAllOptions
   ): Promise<{ users: Array<UserAttributes>; count: number }>;
+  findOne(attrs: Partial<UserAttributes>): Promise<UserAttributes | null>
   findById(id: string): Promise<UserAttributes | null>;
   create(login: string, password: string, age: number): Promise<UserAttributes>;
   update(id: string, attrs: Partial<UserAttributes>): Promise<UserAttributes | null>;
