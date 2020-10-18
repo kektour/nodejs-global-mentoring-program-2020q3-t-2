@@ -6,6 +6,7 @@ export interface UserAttributes {
   password: string;
   age: number;
   is_deleted: boolean;
+  refresh_token: string | null;
 }
 export interface UserCreationAttributes extends UserAttributes {}
 export interface UserInstance extends Model<UserAttributes, UserCreationAttributes>, UserAttributes {}
@@ -35,6 +36,9 @@ export function userFactory(sequelize: Sequelize): ModelCtor<UserInstance> {
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },
+      refresh_token: {
+        type: DataTypes.TEXT,
+      }
     },
     { timestamps: false }
   );
