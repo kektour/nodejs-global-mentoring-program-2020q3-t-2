@@ -13,7 +13,7 @@ export const UserGroupModel = userGroupFactory(connection);
 UserModel.belongsToMany(GroupModel, { foreignKey: 'user_id', sourceKey: 'id', through: UserGroupModel });
 GroupModel.belongsToMany(UserModel, { foreignKey: 'group_id', sourceKey: 'id', through: UserGroupModel });
 
-async function connect(): Promise<void> {
+export async function dbConnect(): Promise<void> {
   try {
     await connection.authenticate();
     console.log('Connection has been established successfully');
@@ -21,4 +21,3 @@ async function connect(): Promise<void> {
     console.error('Unable to connect to the database ', err);
   }
 }
-connect();
